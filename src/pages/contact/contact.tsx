@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { APP_VERSION } from "../../version";
 
 const ContactPage = () => {
   const [copied, setCopied] = useState(false);
   const email = "Abhiseck@outlook.com";
+  const linkedinUrl = "https://www.linkedin.com/in/abhiseck/";
+
+  useEffect(() => {
+    document.title =
+      "Contact & About | Abhiseck Bhattacharya - Canvas Playground";
+  }, []);
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(email);
@@ -72,7 +78,7 @@ const ContactPage = () => {
             </h1>
             <p className="text-neutral-400 text-base leading-relaxed">
               Have an idea for a canvas experiment, found a bug, or want to
-              collaborate on algorithmic visualizers and games? Reach out!
+              collaborate on algorithmic visualizers and games? Connect directly!
             </p>
           </div>
 
@@ -88,17 +94,31 @@ const ContactPage = () => {
                 </p>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <a
+                  href={linkedinUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="px-3.5 py-1.5 rounded-lg text-xs font-medium bg-blue-950/70 hover:bg-blue-900/70 text-blue-300 border border-blue-800/60 flex items-center gap-2 transition-colors"
+                  title="LinkedIn Profile"
+                >
+                  <svg className="w-3.5 h-3.5 fill-current">
+                    <use href="/icons.svg#linkedin-icon" />
+                  </svg>
+                  LinkedIn
+                </a>
+
                 <a
                   href="https://github.com/iamalipe"
                   target="_blank"
                   rel="noreferrer"
                   className="px-3.5 py-1.5 rounded-lg text-xs font-medium bg-neutral-800 hover:bg-neutral-700 text-neutral-200 border border-neutral-700 flex items-center gap-2 transition-colors"
+                  title="GitHub Profile"
                 >
                   <svg className="w-3.5 h-3.5 fill-current">
                     <use href="/icons.svg#github-icon" />
                   </svg>
-                  GitHub @iamalipe
+                  GitHub
                 </a>
               </div>
             </div>
@@ -153,9 +173,77 @@ const ContactPage = () => {
             {/* Links and Channels */}
             <div className="space-y-3 pt-2">
               <label className="text-xs font-semibold uppercase tracking-wider text-neutral-500">
-                Web & Projects
+                Web & Social Profiles
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <a
+                  href={linkedinUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center justify-between p-3 rounded-xl bg-neutral-950/70 border border-neutral-800 hover:border-blue-800/80 transition-colors group"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <svg className="w-4 h-4 fill-current text-blue-400">
+                      <use href="/icons.svg#linkedin-icon" />
+                    </svg>
+                    <div>
+                      <div className="text-sm text-neutral-200 group-hover:text-blue-300 font-medium">
+                        LinkedIn Profile
+                      </div>
+                      <div className="text-[11px] text-neutral-500">
+                        linkedin.com/in/abhiseck
+                      </div>
+                    </div>
+                  </div>
+                  <svg
+                    className="w-4 h-4 text-neutral-500 group-hover:text-neutral-300 transition-transform group-hover:translate-x-0.5"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25"
+                    />
+                  </svg>
+                </a>
+
+                <a
+                  href="https://github.com/iamalipe"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center justify-between p-3 rounded-xl bg-neutral-950/70 border border-neutral-800 hover:border-neutral-700 transition-colors group"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <svg className="w-4 h-4 fill-current text-neutral-400 group-hover:text-white">
+                      <use href="/icons.svg#github-icon" />
+                    </svg>
+                    <div>
+                      <div className="text-sm text-neutral-200 group-hover:text-white font-medium">
+                        GitHub Profile
+                      </div>
+                      <div className="text-[11px] text-neutral-500">
+                        github.com/iamalipe
+                      </div>
+                    </div>
+                  </div>
+                  <svg
+                    className="w-4 h-4 text-neutral-500 group-hover:text-neutral-300 transition-transform group-hover:translate-x-0.5"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25"
+                    />
+                  </svg>
+                </a>
+
                 <a
                   href="https://canvas.abhiseck.dev"
                   target="_blank"
@@ -163,10 +251,15 @@ const ContactPage = () => {
                   className="flex items-center justify-between p-3 rounded-xl bg-neutral-950/70 border border-neutral-800 hover:border-neutral-700 transition-colors group"
                 >
                   <div className="flex items-center gap-2.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-                    <span className="text-sm text-neutral-300 group-hover:text-white">
-                      canvas.abhiseck.dev
-                    </span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                    <div>
+                      <div className="text-sm text-neutral-200 group-hover:text-white font-medium">
+                        Live Playground
+                      </div>
+                      <div className="text-[11px] text-neutral-500">
+                        canvas.abhiseck.dev
+                      </div>
+                    </div>
                   </div>
                   <svg
                     className="w-4 h-4 text-neutral-500 group-hover:text-neutral-300 transition-transform group-hover:translate-x-0.5"
@@ -193,9 +286,14 @@ const ContactPage = () => {
                     <svg className="w-4 h-4 fill-current text-neutral-400 group-hover:text-white">
                       <use href="/icons.svg#github-icon" />
                     </svg>
-                    <span className="text-sm text-neutral-300 group-hover:text-white">
-                      Source Repository
-                    </span>
+                    <div>
+                      <div className="text-sm text-neutral-200 group-hover:text-white font-medium">
+                        Repository
+                      </div>
+                      <div className="text-[11px] text-neutral-500">
+                        canvas-playground source
+                      </div>
+                    </div>
                   </div>
                   <svg
                     className="w-4 h-4 text-neutral-500 group-hover:text-neutral-300 transition-transform group-hover:translate-x-0.5"
@@ -222,6 +320,15 @@ const ContactPage = () => {
         <div className="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p>© {new Date().getFullYear()} Abhiseck Bhattacharya. Canvas Playground.</p>
           <div className="flex items-center gap-4">
+            <a
+              href={linkedinUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-blue-400 transition-colors"
+            >
+              LinkedIn
+            </a>
+            <span className="text-neutral-700">•</span>
             <Link to="/" className="hover:text-neutral-300 transition-colors">
               Playground
             </Link>

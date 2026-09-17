@@ -32,6 +32,10 @@ const Program2 = () => {
   const gameOverRef = useRef(false);
   const isPausedRef = useRef(false);
 
+  useEffect(() => {
+    document.title = "Retro Snake Arcade | Program 2 - Canvas Playground";
+  }, []);
+
   // Sync state with refs for event handlers
   useEffect(() => {
     gameOverRef.current = gameOver;

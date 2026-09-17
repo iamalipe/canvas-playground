@@ -2,11 +2,85 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>canvas-playground</title>
+    <title>Canvas Playground | Interactive HTML5 Canvas Experiments & Algorithms</title>
+
+    <!-- SEO Meta Tags -->
+    <meta
+      name="description"
+      content="Explore interactive HTML5 Canvas experiments, games like Retro Snake, procedural particle networks, maze generators, and pathfinding visualizers built by Abhiseck Bhattacharya."
+    />
+    <meta
+      name="keywords"
+      content="canvas playground, html5 canvas, creative coding, particle physics, retro snake game, maze generator, pathfinding algorithm, A* search, dijkstra, typescript, react 19, vite, abhiseck bhattacharya, iamalipe"
+    />
+    <meta name="author" content="Abhiseck Bhattacharya" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#09090b" />
+    <link rel="canonical" href="https://canvas.abhiseck.dev/" />
+
+    <!-- Open Graph / Facebook / LinkedIn -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://canvas.abhiseck.dev/" />
+    <meta
+      property="og:title"
+      content="Canvas Playground | Interactive HTML5 Canvas Experiments"
+    />
+    <meta
+      property="og:description"
+      content="A modular laboratory for creative coding, canvas mechanics, algorithmic visualizers, and classic arcade games."
+    />
+    <meta property="og:image" content="https://canvas.abhiseck.dev/og-image.png" />
+    <meta property="og:site_name" content="Canvas Playground" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://canvas.abhiseck.dev/" />
+    <meta
+      name="twitter:title"
+      content="Canvas Playground | Interactive HTML5 Canvas Experiments"
+    />
+    <meta
+      name="twitter:description"
+      content="A modular laboratory for creative coding, canvas mechanics, algorithmic visualizers, and classic arcade games."
+    />
+    <meta name="twitter:image" content="https://canvas.abhiseck.dev/og-image.png" />
+    <meta name="twitter:creator" content="@abhiseck" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <!-- Structured Data (JSON-LD) for Search Engines -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://canvas.abhiseck.dev/#website",
+            "url": "https://canvas.abhiseck.dev/",
+            "name": "Canvas Playground",
+            "description": "Interactive creative coding laboratory for HTML5 Canvas experiments, games, and algorithms",
+            "publisher": {
+              "@id": "https://canvas.abhiseck.dev/#person"
+            }
+          },
+          {
+            "@type": "Person",
+            "@id": "https://canvas.abhiseck.dev/#person",
+            "name": "Abhiseck Bhattacharya",
+            "url": "https://canvas.abhiseck.dev",
+            "sameAs": [
+              "https://www.linkedin.com/in/abhiseck/",
+              "https://github.com/iamalipe"
+            ]
+          }
+        ]
+      }
+    </script>
   </head>
-  <body>
+  <body class="bg-neutral-950 text-neutral-100 antialiased">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

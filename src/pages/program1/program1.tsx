@@ -32,6 +32,11 @@ const Program1 = () => {
   const lastFrameTimeRef = useRef<number>(0);
   const frameCountRef = useRef<number>(0);
 
+  useEffect(() => {
+    document.title =
+      "Particle Constellation | Program 1 - Canvas Playground";
+  }, []);
+
   // Initialize particles
   const initParticles = (width: number, height: number, count: number) => {
     const colors = ["#818cf8", "#c084fc", "#38bdf8", "#34d399", "#f472b6"];

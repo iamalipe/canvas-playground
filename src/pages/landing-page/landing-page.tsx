@@ -5,6 +5,12 @@ import { APP_VERSION } from "../../version";
 const LandingPage = () => {
   const heroCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
+  // Set page title for SEO
+  useEffect(() => {
+    document.title =
+      "Canvas Playground | Interactive HTML5 Canvas Experiments & Algorithms";
+  }, []);
+
   // Subtle interactive generative background canvas in hero
   useEffect(() => {
     const canvas = heroCanvasRef.current;
@@ -181,6 +187,17 @@ const LandingPage = () => {
               Contact
             </Link>
             <a
+              href="https://www.linkedin.com/in/abhiseck/"
+              target="_blank"
+              rel="noreferrer"
+              className="p-1.5 rounded-lg text-neutral-400 hover:text-blue-400 hover:bg-neutral-900 border border-transparent hover:border-neutral-800 transition-colors"
+              title="LinkedIn Profile"
+            >
+              <svg className="w-5 h-5 fill-current">
+                <use href="/icons.svg#linkedin-icon" />
+              </svg>
+            </a>
+            <a
               href="https://github.com/iamalipe/canvas-playground"
               target="_blank"
               rel="noreferrer"
@@ -342,6 +359,14 @@ const LandingPage = () => {
           </div>
 
           <div className="flex items-center gap-5">
+            <a
+              href="https://www.linkedin.com/in/abhiseck/"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-blue-400 transition-colors"
+            >
+              LinkedIn
+            </a>
             <Link to="/contact" className="hover:text-neutral-300 transition-colors">
               Contact
             </Link>
