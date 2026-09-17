@@ -81,7 +81,8 @@ git tag -a "$TAG_NAME" -m "Release $TAG_NAME"
 # 6. Commit build to release branch using pure git
 echo "🚀 Updating release branch '$RELEASE_BRANCH' with production build..."
 
-TEMP_INDEX=$(mktemp)
+TEMP_INDEX="/tmp/canvas-git-index-$$"
+rm -f "$TEMP_INDEX"
 export GIT_INDEX_FILE="$TEMP_INDEX"
 
 # Index all files in dist/
