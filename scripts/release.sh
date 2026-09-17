@@ -3,21 +3,46 @@ set -e
 
 # Configuration
 RELEASE_BRANCH="${RELEASE_BRANCH:-release}"
-BUMP_TYPE="${1:-patch}"
+BUMP_TYPE="patch"
+AUTO_PUSH=false
+
+# Parse arguments
+for arg in "$@"; do
+  case "$arg" in
+    --push)
+      AUTO_PUSH=true
+      ;;
+    patch|minor|major|prepatch|preminor|premajor|prerelease)
+      BUMP_TYPE="$arg"
+      ;;
+    v*|[0-9]*)
+      BUMP_TYPE="$arg"
+      ;;
+    *)
+      echo "Unknown option: $arg"
+      echo "Usage: npm run release [-- <bump_type>] [--push]"
+      echo "Example: npm run release -- minor --push"
+      exit 1
+      ;;
+  esac
+done
 
 echo "=========================================="
 echo "  🚀 Canvas Playground Release Pipeline   "
 echo "=========================================="
 echo "📌 Bump Type:       $BUMP_TYPE"
 echo "🌿 Release Branch:  $RELEASE_BRANCH"
+echo "🔄 Auto Push:       $AUTO_PUSH"
 echo ""
 
-# Check for uncommitted changes (excluding untracked files)
+# Check for uncommitted changes in current branch
 if ! git diff-index --quiet HEAD -- 2>/dev/null; then
   echo "⚠️  Working directory has uncommitted changes."
-  echo "    Please commit or stash your changes before running release."
+  echo "    Please commit or stash your changes before releasing."
   exit 1
 fi
+
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
 # 1. Bump version
 echo "📦 Incrementing version ($BUMP_TYPE)..."
@@ -25,9 +50,10 @@ npm version "$BUMP_TYPE" --no-git-tag-version
 
 # Read new version from package.json
 NEW_VERSION=$(node -p "require('./package.json').version")
-echo "✅ New Version: v$NEW_VERSION"
+TAG_NAME="v$NEW_VERSION"
+echo "✅ New Version: $TAG_NAME"
 
-# 2. Run lint and tests
+# 2. Run lint check
 echo "🔍 Running linter (oxlint)..."
 npm run lint
 
@@ -44,28 +70,55 @@ if [ -f public/CNAME ]; then
 fi
 
 # 5. Commit version bump on current branch
-CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 echo "📝 Committing version bump to '$CURRENT_BRANCH'..."
 git add package.json package-lock.json
-git commit -m "chore(release): bump version to v$NEW_VERSION"
+git commit -m "chore(release): bump version to $TAG_NAME"
 
-# Tag release
-TAG_NAME="v$NEW_VERSION"
+# Tag release on source branch
 echo "🏷️  Creating git tag: $TAG_NAME"
 git tag -a "$TAG_NAME" -m "Release $TAG_NAME"
 
-# 6. Deploy to release branch using gh-pages
-echo "🚀 Deploying 'dist' bundle to branch '$RELEASE_BRANCH'..."
-npx gh-pages -d dist -b "$RELEASE_BRANCH" -m "deploy: release $TAG_NAME [skip ci]" --dotfiles
+# 6. Commit build to release branch using pure git
+echo "🚀 Updating release branch '$RELEASE_BRANCH' with production build..."
 
+TEMP_INDEX=$(mktemp)
+export GIT_INDEX_FILE="$TEMP_INDEX"
+
+# Index all files in dist/
+git --work-tree=dist add -A
+TREE_ID=$(git write-tree)
+
+rm -f "$TEMP_INDEX"
+unset GIT_INDEX_FILE
+
+PARENT_ARGS=()
+if git rev-parse --verify "refs/heads/$RELEASE_BRANCH" >/dev/null 2>&1; then
+  PARENT_COMMIT=$(git rev-parse "refs/heads/$RELEASE_BRANCH")
+  PARENT_ARGS=("-p" "$PARENT_COMMIT")
+fi
+
+RELEASE_COMMIT=$(git commit-tree "$TREE_ID" "${PARENT_ARGS[@]}" -m "deploy: release $TAG_NAME [skip ci]")
+git update-ref "refs/heads/$RELEASE_BRANCH" "$RELEASE_COMMIT"
+
+echo "✅ Release branch '$RELEASE_BRANCH' updated to commit ${RELEASE_COMMIT:0:8}!"
 echo ""
 echo "=========================================="
-echo "🎉 Successfully released v$NEW_VERSION!"
+echo "🎉 Successfully released $TAG_NAME!"
 echo "=========================================="
-echo "✅ Bundled files deployed to branch: $RELEASE_BRANCH"
-echo "✅ Git tag created: $TAG_NAME"
+echo "  • Version:        $TAG_NAME"
+echo "  • Source branch:  $CURRENT_BRANCH"
+echo "  • Release branch: $RELEASE_BRANCH"
+echo "  • Git tag:        $TAG_NAME"
 echo ""
-echo "To push current branch and tags to GitHub, run:"
-echo "   git push origin $CURRENT_BRANCH --tags"
-echo "   git push origin $RELEASE_BRANCH"
+
+if [ "$AUTO_PUSH" = true ]; then
+  echo "📤 Pushing to remote repository..."
+  git push origin "$CURRENT_BRANCH" --tags
+  git push origin "$RELEASE_BRANCH"
+  echo "✅ Push complete!"
+else
+  echo "👉 To push to GitHub, run:"
+  echo "   git push origin $CURRENT_BRANCH --tags"
+  echo "   git push origin $RELEASE_BRANCH"
+fi
 echo "=========================================="
