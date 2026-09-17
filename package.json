@@ -1,6 +1,6 @@
 {
   "name": "canvas-playground",
-  "description": "",
+  "description": "Interactive HTML5 Canvas playground for procedural algorithms, creative coding, and classic games",
   "author": {
     "name": "Abhiseck Bhattacharya",
     "email": "Abhiseck@outlook.com"
@@ -11,19 +11,21 @@
   },
   "homepage": "https://canvas.abhiseck.dev",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "release": "bash scripts/release.sh"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "wouter": "^3.11.0"
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",
@@ -34,6 +36,7 @@
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "^6.1.1",
     "babel-plugin-react-compiler": "^1.0.0",
+    "gh-pages": "^6.3.0",
     "oxlint": "^1.81.0",
     "typescript": "~6.0.2",
     "vite": "^8.3.0"
